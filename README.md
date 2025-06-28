@@ -43,6 +43,20 @@ You can also look at my [Angular Hackathon Starter](https://github.com/ahmetuysa
 3. Move to the appropriate directory: `cd <YOUR_PROJECT_NAME>`.
 4. Run `yarn` to install dependencies.
 
+### PostgreSQL with Docker
+
+Setup a development PostgreSQL with Docker. Copy [.env.example](./.env.example) and rename to `.env` - `cp .env.example .env` - which sets the required environments for PostgreSQL such as `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`. Update the variables as you wish and select a strong password.
+
+Start the PostgreSQL database
+
+```bash
+docker-compose --env-file ./env/local.env -f docker-compose.db.yml up -d
+# or
+npm run docker:db:local
+```
+
+Similar is the case for test and production environmnet variables
+
 ### Configuration Files
 
 #### [Prisma](https://github.com/prisma/prisma) Configurations
@@ -176,7 +190,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/ahmetuysal"><img src="https://avatars.githubusercontent.com/u/26417668?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ahmet Uysal</b></sub></a><br /><a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Code">💻</a> <a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Documentation">📖</a> <a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/ahmetuysal"><img src="https://avatars.githubusercontent.com/u/26417668?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Muneeb Ullah</b></sub></a><br /><a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Code">💻</a> <a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Documentation">📖</a> <a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://dnlytras.com"><img src="https://avatars.githubusercontent.com/u/4951004?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dimitrios Lytras</b></sub></a><br /><a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=dimitrisnl" title="Code">💻</a></td>
   </tr>
 </table>

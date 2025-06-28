@@ -1,0 +1,6 @@
+services:
+  adminer:
+    image: adminer
+    container_name: adminer-app
+    ports:
+      - ${ADMINER_PORT}:8080

@@ -1,12 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import * as helmet from 'helmet';
 import * as requestIp from 'request-ip';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   // CORS is enabled
+
+  const logger = new Logger();
   const app = await NestFactory.create(AppModule, { cors: true });
 
   // Request Validation
@@ -19,7 +21,7 @@ async function bootstrap() {
 
   // Swagger API Documentation
   const options = new DocumentBuilder()
-    .setTitle('NestJS Hackathon Starter by @ahmetuysal')
+    .setTitle('NestJS Hackathon Starter by @moneebullah25')
     .setDescription('NestJS Hackathon Starter API description')
     .setVersion('0.1.0')
     .addBearerAuth()
@@ -27,7 +29,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT || 3000, '127.0.0.1');
+  logger.log(`Application listening on port ${process.env.PORT || 3000}`);
+
+  await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
 
 bootstrap();

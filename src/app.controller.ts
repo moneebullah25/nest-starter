@@ -7,5 +7,7 @@ export class AppController {
   @Get()
   @HttpCode(HttpStatus.OK)
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  healthCheck(): void {}
+  healthCheck(): string {
+    return 'Hello world';
+  }
 }
