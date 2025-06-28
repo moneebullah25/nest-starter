@@ -41,21 +41,7 @@ You can also look at my [Angular Hackathon Starter](https://github.com/ahmetuysa
 1. Make sure that you have [Node.js](https://nodejs.org)(>= 10.13.0, except for v13) installed.
 2. Clone this repository by running `git clone https://github.com/ahmetuysal/nest-hackathon-starter.git <YOUR_PROJECT_NAME>` or [directly create your own GitHub repository using this template](https://github.com/ahmetuysal/nest-hackathon-starter/generate).
 3. Move to the appropriate directory: `cd <YOUR_PROJECT_NAME>`.
-4. Run `yarn` to install dependencies.
-
-### PostgreSQL with Docker
-
-Setup a development PostgreSQL with Docker. Copy [.env.example](./.env.example) and rename to `.env` - `cp .env.example .env` - which sets the required environments for PostgreSQL such as `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB`. Update the variables as you wish and select a strong password.
-
-Start the PostgreSQL database
-
-```bash
-docker-compose --env-file ./env/local.env -f docker-compose.db.yml up -d
-# or
-npm run docker:db:local
-```
-
-Similar is the case for test and production environmnet variables
+4. Run `npm ci` to install dependencies.
 
 ### Configuration Files
 
@@ -147,65 +133,50 @@ Mail templates are highly customizable and heavily depend on configurations. Ent
 
 Please refer to the official [Prisma Migrate Guide](https://www.prisma.io/docs/guides/database/developing-with-prisma-migrate) to get more info about Prisma migrations.
 
-```bash
-# generate migration for local environment
-$ yarn migrate:dev:create
-# run migrations in local environment
-$ yarn migrate:dev
+Sure! Here's the updated **Commands Overview** for your `README.md` with slightly expanded descriptions (10–15 words each) while still keeping it concise and clean:
 
-# deploy migration to prod environment
-$ yarn migrate:deploy:prod
-```
+### 📦 NPM Scripts
 
-### Running the app
+| Command                    | Description                                                                     |
+| -------------------------- | ------------------------------------------------------------------------------- |
+| `npm run build`            | Compiles TypeScript source files into the `dist/` directory for production use. |
+| `npm run start:local`      | Runs the NestJS app using environment variables from `env/local.env`.           |
+| `npm run start:test`       | Runs the NestJS app with testing environment variables from `env/test.env`.     |
+| `npm run start:production` | Starts the compiled app using `env/production.env` for production environment.  |
 
-```bash
-# development mode
-$ yarn start:dev
+### 🧪 Testing & Linting
 
-# production
-$ yarn build
-$ yarn start:prod
-```
+| Command              | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
+| `npm run test`       | Runs all unit tests using configuration from `env/test.env`.              |
+| `npm run test:watch` | Watches and reruns tests on file changes for faster development feedback. |
+| `npm run test:e2e`   | Executes end-to-end tests using Jest with e2e configuration.              |
+| `npm run lint`       | Lints all TypeScript code and auto-fixes fixable issues for cleaner code. |
 
-### Running the tests
+### 🔁 Prisma (Database Schema)
 
-```bash
-# unit tests
-$ yarn test
+| Command                     | Description                                                                     |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `npm run prisma:seed:<env>` | Seeds database with test data for `local`, `test`, or `production` environment. |
+| `npm run migrate:<env>`     | Applies Prisma schema migrations to database for selected environment.          |
+| `npm run prisma:studio`     | Launches Prisma Studio web UI to explore and edit database tables visually.     |
 
-# e2e tests
-$ yarn test:e2e
+### 🐳 Docker Containers
 
-# test coverage
-$ yarn test:cov
-```
+| Command                      | Description                                                                                     |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run docker:<env>`       | Starts Docker containers for app, database, etc. based on environment config.                   |
+| `npm run docker:<env>:build` | Builds Docker images from scratch for the selected environment (`local`, `test`, `production`). |
 
-## Contributors ✨
+### 🛢️ Docker: Database & Adminer
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+| Command                        | Description                                                                             |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| `npm run docker:db:<env>`      | Starts only the PostgreSQL container using variables from the chosen environment.       |
+| `npm run docker:db:stop`       | Stops the PostgreSQL container if it is currently running.                              |
+| `npm run docker:adminer:<env>` | Starts Adminer database UI container for browsing database in the selected environment. |
+| `npm run docker:adminer:stop`  | Stops the Adminer container regardless of which environment it was running under.       |
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/ahmetuysal"><img src="https://avatars.githubusercontent.com/u/26417668?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Muneeb Ullah</b></sub></a><br /><a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Code">💻</a> <a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Documentation">📖</a> <a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=ahmetuysal" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://dnlytras.com"><img src="https://avatars.githubusercontent.com/u/4951004?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dimitrios Lytras</b></sub></a><br /><a href="https://github.com/ahmetuysal/nest-hackathon-starter/commits?author=dimitrisnl" title="Code">💻</a></td>
-  </tr>
-</table>
+> Replace `<env>` with one of: `local`, `test`, or `production`.
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-## Support Nest
-
-Nest is an MIT-licensed open source project. If you'd like to join support Nest, please [read more here](https://docs.nestjs.com/support).
-
-## License
-
-Licenced under [MIT License](LICENSE). Nest is also MIT licensed.
+---
