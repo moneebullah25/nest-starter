@@ -25,4 +25,4 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/env ./env
 
 EXPOSE ${PORT}
-CMD [ "npm", "run", "start:production" ]
+CMD [ "npm", "run", "start:prod" ]
