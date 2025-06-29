@@ -6,6 +6,7 @@ WORKDIR /app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 COPY prisma ./prisma/
+COPY env ./env/ 
 
 # Install app dependencies
 RUN npm install
@@ -21,6 +22,7 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/env ./env
 
 EXPOSE ${PORT}
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start:production" ]

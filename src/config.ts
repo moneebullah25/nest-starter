@@ -1,38 +1,69 @@
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
+
+const NODE_ENV = process.env.NODE_ENV || 'local';
+const envPath = path.resolve(process.cwd(), `env/${NODE_ENV}.env`);
+
+const result = dotenv.config({ path: envPath });
+dotenvExpand.expand(result);
+
+if (result.error) {
+  throw new Error(`❌ Failed to load env file at ${envPath}: ${result.error}`);
+}
+
+// Helper to ensure required env vars are set
+function getEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`❌ Missing required environment variable: ${key}`);
+  }
+  return value;
+}
+
+function getOptionalEnv(key: string, fallback = ''): string {
+  return process.env[key] || fallback;
+}
+
 export default {
   jwt: {
-    secretOrKey: '__JWT_SECRET_KEY__',
-    expiresIn: 86400,
+    secretOrKey: getEnv('JWT_SECRET_KEY'),
+    expiresIn: parseInt(getOptionalEnv('JWT_EXPIRES_IN', '86400'), 10),
   },
-  // You can also use any other email sending services
   mail: {
     service: {
-      host: 'smtp.sendgrid.net',
-      port: 587,
-      secure: false,
-      user: 'apikey',
-      pass: '__SENDGRID_API_KEY__',
+      host: getEnv('SENDGRID_HOST'),
+      port: parseInt(getOptionalEnv('SENDGRID_PORT', '587'), 10),
+      secure: getOptionalEnv('SENDGRID_SECURE') === 'true',
+      user: getEnv('SENDGRID_USER'),
+      pass: getEnv('SENDGRID_PASS'),
     },
     senderCredentials: {
-      name: '__SENDER_NAME__',
-      email: '__SENDER_EMAIL__',
+      name: getEnv('SENDER_NAME'),
+      email: getEnv('SENDER_EMAIL'),
     },
   },
-  // these are used in the mail templates
   project: {
-    name: '__YOUR_PROJECT_NAME__',
-    address: '__YOUR_PROJECT_ADDRESS__',
-    logoUrl: 'https://__YOUR_PROJECT_LOGO_URL__',
-    slogan: 'Made with ❤️ in Istanbul',
-    color: '#123456',
+    name: getEnv('PROJECT_NAME'),
+    address: getEnv('PROJECT_ADDRESS'),
+    logoUrl: getEnv('PROJECT_LOGO_URL'),
+    slogan: getOptionalEnv('PROJECT_SLOGAN', 'Made with ❤️'),
+    color: getOptionalEnv('PROJECT_COLOR', '#123456'),
     socials: [
-      ['GitHub', '__Project_GitHub_URL__'],
-      ['__Social_Media_1__', '__Social_Media_1_URL__'],
-      ['__Social_Media_2__', '__Social_Media_2_URL__'],
+      ['GitHub', getOptionalEnv('PROJECT_SOCIAL_GITHUB')],
+      [
+        getOptionalEnv('PROJECT_SOCIAL_1_NAME'),
+        getOptionalEnv('PROJECT_SOCIAL_1_URL'),
+      ],
+      [
+        getOptionalEnv('PROJECT_SOCIAL_2_NAME'),
+        getOptionalEnv('PROJECT_SOCIAL_2_URL'),
+      ],
     ],
-    url: 'http://localhost:4200',
-    mailVerificationUrl: 'http://localhost:3000/auth/verify',
-    mailChangeUrl: 'http://localhost:3000/auth/change-email',
-    resetPasswordUrl: 'http://localhost:4200/reset-password',
-    termsOfServiceUrl: 'http://localhost:4200/legal/terms',
+    url: getEnv('PROJECT_URL'),
+    mailVerificationUrl: getEnv('MAIL_VERIFICATION_URL'),
+    mailChangeUrl: getEnv('MAIL_CHANGE_URL'),
+    resetPasswordUrl: getEnv('RESET_PASSWORD_URL'),
+    termsOfServiceUrl: getEnv('TERMS_OF_SERVICE_URL'),
   },
 };
