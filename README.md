@@ -1,4 +1,4 @@
-# Nest Hackathon Starter <a href="https://nestjs.com/" target="_blank"><img src="https://nestjs.com/img/logo_text.svg" height="28px" alt="Nest Logo"/></a>
+# Nest Starter <a href="https://nestjs.com/" target="_blank"><img src="https://nestjs.com/img/logo_text.svg" height="28px" alt="Nest Logo"/></a>
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
