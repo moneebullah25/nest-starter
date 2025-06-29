@@ -30,9 +30,9 @@ describe('AuthController (e2e)', () => {
   describe('/auth/signup POST', () => {
     it('should not accept usernames with underscore', () => {
       const signupRequest: SignupRequest = {
-        email: 'auysal16@ku.edu.tr',
-        firstName: 'Ahmet',
-        lastName: 'Uysal',
+        email: 'moneebullah25@gmail.com',
+        firstName: 'Muneeb',
+        lastName: 'Ullah',
         password: 'password',
         username: 'invalid_username',
       };

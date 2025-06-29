@@ -1,182 +1,317 @@
-# Nest Hackathon Starter <a href="https://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" height="28px" alt="Nest Logo"/></a>
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+# Nest Hackathon Starter <a href="https://nestjs.com/" target="_blank"><img src="https://nestjs.com/img/logo_text.svg" height="28px" alt="Nest Logo"/></a>
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This project contains boilerplate for creating APIs using [Nest](https://nestjs.com), a progressive [Node.js](http://nodejs.org) framework for building efficient and scalable server-side applications.
 
 It is mostly built to be used as a starting point in hackathons and implements common operations such as sign up, JWT authentication, mail validation, model validation and database access.
 
-You can also look at my [Angular Hackathon Starter](https://github.com/ahmetuysal/angular-hackathon-starter) template that shares the same contract with this API.
+You can also look at my [Angular Hackathon Starter](https://github.com/moneebullah25/angular-hackathon-starter) template that shares the same contract with this API.
 
-## Features
+---
 
-1. **PostgreSQL with Prisma**
+## 🚀 Features
 
-2. **JWT Authentication**
+1. **PostgreSQL with Prisma** – Easy-to-use and scalable relational database integration with auto-generated types.
+2. **JWT Authentication** – Secure login and session management using JSON Web Tokens.
+3. **Mail Verification** – User email verification flows through secure token-based links.
+4. **Mail Change** – Enable users to change their email with double confirmation via secure tokens.
+5. **Password Reset** – Built-in secure password reset mechanism using tokenized links.
+6. **Request Validation** – Input validation using class-validator and NestJS pipes.
+7. **Customizable Mail Templates** – Dynamic email templates that support your project’s branding.
+8. **Swagger API Documentation** – Auto-generated API docs with Swagger UI.
+9. **Security Techniques** – Helmet, CORS, and input sanitation baked in.
+10. **Logger** – NestJS logger for clean structured logs and error messages.
 
-3. **Mail Verification**
+---
 
-4. **Mail Change**
+## 🛠 Getting Started
 
-5. **Password Reset**
+### ✅ Prerequisites
 
-6. **Request Validation**
+- **Node.js ≥ 16**
+- **NPM or Yarn**
+- **PostgreSQL (Local or Docker)**
+- **Docker & Docker Compose** (for containerized development)
 
-7. **Customizable Mail Templates**
+---
 
-8. **Swagger API Documentation**
+## 📁 Project Setup
 
-9. **Security Techniques**
+```bash
+git clone https://github.com/moneebullah25/nest-hackathon-starter.git <YOUR_PROJECT_NAME>
+cd <YOUR_PROJECT_NAME>
+npm ci
+```
 
-10. **Logger**
+---
 
-## Getting Started
+## 📦 Environment Configuration
 
-### Installation
+All environment-specific configurations are managed inside the `env/` directory. You should maintain separate `.env` files for each environment:
 
-1. Make sure that you have [Node.js](https://nodejs.org)(>= 10.13.0, except for v13) installed.
-2. Clone this repository by running `git clone https://github.com/ahmetuysal/nest-hackathon-starter.git <YOUR_PROJECT_NAME>` or [directly create your own GitHub repository using this template](https://github.com/ahmetuysal/nest-hackathon-starter/generate).
-3. Move to the appropriate directory: `cd <YOUR_PROJECT_NAME>`.
-4. Run `npm ci` to install dependencies.
+- `env/local.env`
+- `env/test.env`
+- `env/production.env`
 
-### Configuration Files
+These files contain sensitive variables like DB URLs, API keys, mail credentials, and project metadata.
 
-#### [Prisma](https://github.com/prisma/prisma) Configurations
+Here is an example of a `env/test.env` file:
 
-This template uses Postgres by default. If you want to use another database, follow instructions in the [official Nest recipe on Prisma](https://docs.nestjs.com/recipes/prisma).
+```dotenv
+NODE_ENV=test
 
-If you wish to use another database you will also have to edit the connection string on [`prisma/.env`](prisma/.env) file accordingly.
-
-Template includes three different environment options by default. Most of the time you will use the `local`
-environment when developing and `production` environment on production. You will need to fill out corresponding
-environment files in [`env`](env) directory.
-
-```dosini
-DATABASE_HOST=__YOUR_DATABASE_URL__
+DATABASE_HOST=localhost
 DATABASE_PORT=5432
-DATABASE_USERNAME=__YOUR_USERNAME__
-DATABASE_PASSWORD=__YOUR_PASSWORD__
-DATABASE_NAME=__YOUR_DATABASE__
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=starter
+
+ADMINER_PORT=8080
+
+PORT=3000
+
+DATABASE_URL="postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}"
+
+JWT_SECRET_KEY=your_jwt_secret_key
+JWT_EXPIRES_IN=86400
+
+SENDGRID_HOST=smtp.sendgrid.net
+SENDGRID_PORT=587
+SENDGRID_SECURE=false
+SENDGRID_USER=apikey
+SENDGRID_PASS=your_sendgrid_api_key
+
+SENDER_NAME=Your Project Name
+SENDER_EMAIL=your@email.com
+
+PROJECT_NAME=Your Project
+PROJECT_ADDRESS=123 Nest Street, Pakistan
+PROJECT_LOGO_URL=https://yourdomain.com/logo.png
+PROJECT_SLOGAN=Made with ❤️ in Pakistan
+PROJECT_COLOR=#123456
+
+PROJECT_SOCIAL_GITHUB=https://github.com/your-repo
+PROJECT_SOCIAL_1_NAME=Twitter
+PROJECT_SOCIAL_1_URL=https://twitter.com/yourhandle
+PROJECT_SOCIAL_2_NAME=LinkedIn
+PROJECT_SOCIAL_2_URL=https://linkedin.com/in/yourprofile
+
+PROJECT_URL=http://localhost:4200
+MAIL_VERIFICATION_URL=http://localhost:3000/auth/verify
+MAIL_CHANGE_URL=http://localhost:3000/auth/change-email
+RESET_PASSWORD_URL=http://localhost:4200/reset-password
+TERMS_OF_SERVICE_URL=http://localhost:4200/legal/terms
 ```
 
-#### JWT Configurations
+---
 
-A secret key is needed in encryption process. Generate a secret key using a service like [randomkeygen](https://randomkeygen.com/).
+## ✉️ Mail Configuration (Nodemailer & SendGrid)
 
-Enter your secret key to [`config.ts`](src/config.ts) file. You can also the change expiration time, default is 86400 seconds(1 day).
+This project uses [Nodemailer](https://nodemailer.com/about/) with **SendGrid SMTP** for sending transactional emails (verification, password reset, etc).
 
-```js
-  jwt: {
-    secretOrKey: '__JWT_SECRET_KEY__',
-    expiresIn: 86400,
-  },
-```
-
-#### [NodeMailer✉️](https://github.com/nodemailer/nodemailer) Configurations
-
-A delivery provider is required for sending mails with Nodemailer. I mostly use [SendGrid](https://sendgrid.com) to send mails, however, Nodemailer can work with any service with SMTP transport.
+A delivery provider is required for sending mails with Nodemailer. I mostly use SendGrid to send mails, however, Nodemailer can work with any service with SMTP transport.
 
 To get a SendGrid API key:
 
-- Create a free account from [https://signup.sendgrid.com/](https://signup.sendgrid.com/)
-- Confirm your account via the activation email and login.
-- Create an API Key with mail sending capability.
+    Create a free account from https://signup.sendgrid.com/
+    Confirm your account via the activation email and login.
+    Create an API Key with mail sending capability.
 
-Enter your API key and sender credentials to [`config.ts`](src/config.ts) file. Sender credentials are the sender name and sender mail that will be seen by your users.
+Enter your API key and sender credentials to env file. Sender credentials are the sender name and sender mail that will be seen by your users.
 
-```js
-mail:
-    service: {
-      host: 'smtp.sendgrid.net',
-      port: 587,
-      secure: false,
-      user: 'apikey',
-      pass: '__SENDGRID_API_KEY__',
-    },
-    senderCredentials: {
-      name: '__SENDER_NAME__',
-      email: '__SENDER_EMAIL__',
-    },
-  },
+```dotenv
+SENDGRID_HOST=smtp.sendgrid.net
+SENDGRID_PORT=587
+SENDGRID_SECURE=false
+SENDGRID_USER=apikey
+SENDGRID_PASS=your_sendgrid_api_key
+SENDER_NAME=Your Project Name
+SENDER_EMAIL=your@email.com
 ```
 
-#### Mail Template Configurations
+> You can obtain your SendGrid API Key by signing up at [https://sendgrid.com](https://sendgrid.com) and creating an API key with email send permissions.
 
-Mail templates are highly customizable and heavily depend on configurations. Enter your project's information to [`config.ts`](src/config.ts). Urls are used as references in the templates. If your mail verification logic is independent from your front-end application, you can use API's own mail verification endpoint, e.g. `http://localhost:3000/auth/verify`, as `mailVerificationUrl`. Otherwise, send a HTTP `GET` request to verification endpoint with token added as a parameter named token, e.g, `http://localhost:3000/auth/verify?token=__VERIFICATION_TOKEN__`
+All email credentials and sender configurations are loaded dynamically via `config.ts` using the current environment file.
 
-```js
- project: {
-    name: '__YOUR_PROJECT_NAME__',
-    address: '__YOUR_PROJECT_ADDRESS__',
-    logoUrl: 'https://__YOUR_PROJECT_LOGO_URL__',
-    slogan: 'Made with ❤️ in Istanbul',
-    color: '#123456',
-    // You can enter as many social links as you want
-    socials: [
-      ['GitHub', '__Project_GitHub_URL__'],
-      ['__Social_Media_1__', '__Social_Media_1_URL__'],
-      ['__Social_Media_2__', '__Social_Media_2_URL__'],
-    ],
-    url: 'http://localhost:4200',
-    mailVerificationUrl: 'http://localhost:3000/auth/verify',
-    mailChangeUrl: 'http://localhost:3000/auth/change-email',
-    resetPasswordUrl: 'http://localhost:4200/reset-password',
-    termsOfServiceUrl: 'http://localhost:4200/legal/terms',
-  },
+---
+
+## 📬 Mail Template Configurations
+
+The mail templates are dynamically populated using values defined in your environment file. These values include:
+
+- Project name, address, logo, slogan, and brand color
+- Social media URLs
+- Important URLs for actions like email verification, password reset, etc.
+
+Mail templates are highly customizable and heavily depend on configurations. Enter your project's information to env file. Urls are used as references in the templates. If your mail verification logic is independent from your front-end application, you can use API's own mail verification endpoint, e.g. http://localhost:3000/auth/verify, as mailVerificationUrl. Otherwise, send a HTTP GET request to verification endpoint with token added as a parameter named token, e.g, http://localhost:3000/auth/verify?token=**VERIFICATION_TOKEN**
+
+Example:
+
+```env
+PROJECT_NAME=Your Project
+PROJECT_ADDRESS=123 Nest Street, Pakistan
+PROJECT_LOGO_URL=https://yourdomain.com/logo.png
+PROJECT_SLOGAN=Made with ❤️ in Pakistan
+PROJECT_COLOR=#123456
+PROJECT_SOCIAL_GITHUB=https://github.com/your-repo
 ```
 
-### Migrations
+> The backend handles generating tokenized verification links like `/auth/verify?token=xyz`.
 
-Please refer to the official [Prisma Migrate Guide](https://www.prisma.io/docs/guides/database/developing-with-prisma-migrate) to get more info about Prisma migrations.
+---
 
-Sure! Here's the updated **Commands Overview** for your `README.md` with slightly expanded descriptions (10–15 words each) while still keeping it concise and clean:
+## 📄 Swagger API Docs
 
-### 📦 NPM Scripts
+Swagger UI is available at `/api` when you run the server. It displays all available routes, DTOs, and expected request/response formats.
 
-| Command                    | Description                                                                     |
-| -------------------------- | ------------------------------------------------------------------------------- |
-| `npm run build`            | Compiles TypeScript source files into the `dist/` directory for production use. |
-| `npm run start:local`      | Runs the NestJS app using environment variables from `env/local.env`.           |
-| `npm run start:test`       | Runs the NestJS app with testing environment variables from `env/test.env`.     |
-| `npm run start:production` | Starts the compiled app using `env/production.env` for production environment.  |
+---
+
+## 🗃 Database & Prisma
+
+This project uses [Prisma](https://www.prisma.io/) as the ORM for PostgreSQL. Prisma makes it easy to manage and migrate your schema.
+
+After setting your `DATABASE_URL` in the env file, you can run the following commands:
+
+```bash
+npm run prisma:generate         # Generate Prisma client
+npm run migrate:local           # Apply local migrations
+npm run prisma:studio           # Open Prisma web GUI
+```
+
+Use `seed.ts` files for seeding test data.
+
+---
+
+## 🧪 Testing
+
+Tests are written using [Jest](https://jestjs.io/) and run inside the `test/` directory.
+
+### Run tests:
+
+```bash
+npm run test            # Runs all unit tests
+npm run test:watch      # Watches and reruns tests
+npm run test:e2e        # End-to-end tests using Jest & Supertest
+```
+
+> Uses `env/test.env` during tests for isolation.
+
+---
+
+## 🐳 Docker Support
+
+Run your API and PostgreSQL using Docker for clean environment management.
+
+### Build and Start Containers
+
+```bash
+npm run docker:local             # Start using env/local.env
+npm run docker:test              # Start with test environment
+npm run docker:production        # Start production environment
+```
+
+You can also run database or Adminer container only:
+
+```bash
+npm run docker:db:local
+npm run docker:adminer:local
+npm run docker:db:test
+npm run docker:adminer:test
+npm run docker:db:production
+npm run docker:adminer:production
+```
+
+Stop them with:
+
+```bash
+npm run docker:db:stop
+npm run docker:adminer:stop
+```
+
+---
+
+## 📜 NPM Scripts Overview
+
+### 📦 Build & Start
+
+| Script             | Description                                                         |
+| ------------------ | ------------------------------------------------------------------- |
+| `start`            | Runs Nest app using env/local.env                                   |
+| `start:local`      | Same as above but with file watching enabled                        |
+| `start:test`       | Starts app using env/test.env                                       |
+| `start:production` | Compiles app and runs using env/production.env                      |
+| `build`            | Cleans and compiles the TypeScript project into `dist/` folder      |
+| `clean`            | Removes the compiled `dist/` folder                                 |
+| `postinstall`      | Automatically generates Prisma client after dependency installation |
 
 ### 🧪 Testing & Linting
 
-| Command              | Description                                                               |
-| -------------------- | ------------------------------------------------------------------------- |
-| `npm run test`       | Runs all unit tests using configuration from `env/test.env`.              |
-| `npm run test:watch` | Watches and reruns tests on file changes for faster development feedback. |
-| `npm run test:e2e`   | Executes end-to-end tests using Jest with e2e configuration.              |
-| `npm run lint`       | Lints all TypeScript code and auto-fixes fixable issues for cleaner code. |
+| Script       | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| `test`       | Runs Jest with env/test.env                          |
+| `test:watch` | Automatically reruns tests on file changes           |
+| `test:e2e`   | Runs end-to-end tests with Jest + Supertest          |
+| `lint`       | Lints all TypeScript files using ESLint with autofix |
+| `format`     | Formats all source and test files using Prettier     |
 
-### 🔁 Prisma (Database Schema)
+### 🔁 Prisma Commands
 
-| Command                     | Description                                                                     |
-| --------------------------- | ------------------------------------------------------------------------------- |
-| `npm run prisma:seed:<env>` | Seeds database with test data for `local`, `test`, or `production` environment. |
-| `npm run migrate:<env>`     | Applies Prisma schema migrations to database for selected environment.          |
-| `npm run prisma:studio`     | Launches Prisma Studio web UI to explore and edit database tables visually.     |
+| Script                      | Description                                           |
+| --------------------------- | ----------------------------------------------------- |
+| `prisma:generate`           | Generates Prisma client code                          |
+| `prisma:generate:watch`     | Watches Prisma schema and regenerates on change       |
+| `migrate:local:create`      | Creates a new migration locally                       |
+| `migrate:local`             | Runs local development migration                      |
+| `migrate:local:pull`        | Pulls DB schema into Prisma                           |
+| `migrate:local:reset`       | Resets local DB and reruns all migrations and seeders |
+| `migrate:deploy:production` | Deploys migration to production DB                    |
+| `migrate:status`            | Shows current migration status                        |
+| `prisma:studio`             | Opens Prisma Studio (Web UI for DB)                   |
+| `prisma:seed:local`         | Seeds DB using local.env                              |
+| `prisma:seed:test`          | Seeds DB using test.env                               |
+| `prisma:seed:production`    | Seeds DB using production.env                         |
 
-### 🐳 Docker Containers
+---
 
-| Command                      | Description                                                                                     |
-| ---------------------------- | ----------------------------------------------------------------------------------------------- |
-| `npm run docker:<env>`       | Starts Docker containers for app, database, etc. based on environment config.                   |
-| `npm run docker:<env>:build` | Builds Docker images from scratch for the selected environment (`local`, `test`, `production`). |
+## 📂 Project Structure
 
-### 🛢️ Docker: Database & Adminer
+```
+.
+├── env/                  # All .env files (local.env, test.env, production.env)
+├── prisma/               # Prisma schema, migrations, and seeders
+├── src/                  # Main source code
+├── test/                 # Unit and E2E tests
+├── dist/                 # Compiled output after build
+├── Dockerfile            # Docker build instructions
+├── docker-compose.yml    # Docker Compose config
+├── docker-compose.db.yml # DB-only Compose file
+├── README.md             # You're here!
+```
 
-| Command                        | Description                                                                             |
-| ------------------------------ | --------------------------------------------------------------------------------------- |
-| `npm run docker:db:<env>`      | Starts only the PostgreSQL container using variables from the chosen environment.       |
-| `npm run docker:db:stop`       | Stops the PostgreSQL container if it is currently running.                              |
-| `npm run docker:adminer:<env>` | Starts Adminer database UI container for browsing database in the selected environment. |
-| `npm run docker:adminer:stop`  | Stops the Adminer container regardless of which environment it was running under.       |
+---
 
-> Replace `<env>` with one of: `local`, `test`, or `production`.
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/foo`)
+3. Commit your changes
+4. Push to the branch (`git push origin feature/foo`)
+5. Create a pull request
+
+Please make sure to lint and test your changes:
+
+```bash
+npm run lint
+npm run test
+```
+
+---
+
+## 🧑‍💻 Author
+
+Originally created by [Muneeb Ullah](https://github.com/moneebullah25)
 
 ---

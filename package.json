@@ -4,7 +4,7 @@
   "description": "Hackathon starter project for NestJS.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmetuysal/nest-hackathon-starter"
+    "url": "https://github.com/moneebullah25/nest-hackathon-starter"
   },
   "author": "Muneeb Ullah",
   "license": "MIT",
@@ -37,10 +37,6 @@
     "prisma:seed:test": "dotenv -e env/test.env -- ts-node --transpile-only prisma/seed.ts",
     "prisma:seed:production": "dotenv -e env/production.env -- ts-node --transpile-only prisma/seed.ts",
     "postinstall": "npm run prisma:generate",
-    "docker:local": "docker-compose --env-file ./env/local.env up -d",
-    "docker:local:build": "docker-compose --env-file ./env/local.env build --no-cache",
-    "docker:test": "docker-compose --env-file ./env/test.env up -d",
-    "docker:test:build": "docker-compose --env-file ./env/test.env build --no-cache",
     "docker:production": "docker-compose --env-file ./env/production.env up -d",
     "docker:production:build": "docker-compose --env-file ./env/production.env build --no-cache",
     "docker:db:local": "docker-compose --env-file ./env/local.env -f docker-compose.db.yml up -d",

@@ -1,14 +1,14 @@
 import { AuthUser } from '../../src/auth/auth-user';
 
 export const mockUser = (fields?: Partial<AuthUser>): AuthUser => ({
-  firstName: 'Ahmet',
+  firstName: 'Muneeb',
   middleName: null,
-  lastName: 'Uysal',
-  username: 'ahmet',
+  lastName: 'Ullah',
+  username: 'moneebullah25',
   image: null,
-  birthDate: new Date('1998-09-21'),
+  birthDate: new Date('2001-08-27'),
   registrationDate: new Date(),
-  email: 'auysal16@ku.edu.tr',
+  email: 'moneebullah25@gmail.com',
   id: 1,
   emailVerified: true,
   passwordHash: 'passwordHash',

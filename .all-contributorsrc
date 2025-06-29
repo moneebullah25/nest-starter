@@ -6,29 +6,20 @@
   "commit": false,
   "contributors": [
     {
-      "login": "ahmetuysal",
+      "login": "moneebullah25",
       "name": "Muneeb Ullah",
       "avatar_url": "https://avatars.githubusercontent.com/u/26417668?v=4",
-      "profile": "https://github.com/ahmetuysal",
+      "profile": "https://github.com/moneebullah25",
       "contributions": [
         "code",
         "doc",
         "test"
       ]
-    },
-    {
-      "login": "dimitrisnl",
-      "name": "Dimitrios Lytras",
-      "avatar_url": "https://avatars.githubusercontent.com/u/4951004?v=4",
-      "profile": "https://dnlytras.com",
-      "contributions": [
-        "code"
-      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "nest-hackathon-starter",
-  "projectOwner": "ahmetuysal",
+  "projectOwner": "moneebullah25",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true
