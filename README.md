@@ -50,7 +50,7 @@ npm ci
 
 All environment-specific configurations are managed inside the `env/` directory. You should maintain separate `.env` files for each environment:
 
-- `env/local.env`
+- `env/dev.env`
 - `env/test.env`
 - `env/production.env`
 
@@ -175,7 +175,7 @@ After setting your `DATABASE_URL` in the env file, you can run the following com
 
 ```bash
 npm run prisma:generate         # Generate Prisma client
-npm run migrate:local           # Apply local migrations
+npm run migrate:dev           # Apply dev migrations
 npm run prisma:studio           # Open Prisma web GUI
 ```
 
@@ -206,7 +206,7 @@ Run your API and PostgreSQL using Docker for clean environment management.
 ### Build and Start Containers
 
 ```bash
-npm run docker:local             # Start using env/local.env
+npm run docker:dev             # Start using env/dev.env
 npm run docker:test              # Start with test environment
 npm run docker:production        # Start production environment
 ```
@@ -214,8 +214,8 @@ npm run docker:production        # Start production environment
 You can also run database or Adminer container only:
 
 ```bash
-npm run docker:db:local
-npm run docker:adminer:local
+npm run docker:db:dev
+npm run docker:adminer:dev
 npm run docker:db:test
 npm run docker:adminer:test
 npm run docker:db:production
@@ -237,8 +237,8 @@ npm run docker:adminer:stop
 
 | Script             | Description                                                         |
 | ------------------ | ------------------------------------------------------------------- |
-| `start`            | Runs Nest app using env/local.env                                   |
-| `start:local`      | Same as above but with file watching enabled                        |
+| `start`            | Runs Nest app using env/dev.env                                     |
+| `start:dev`        | Same as above but with file watching enabled                        |
 | `start:test`       | Starts app using env/test.env                                       |
 | `start:production` | Compiles app and runs using env/production.env                      |
 | `build`            | Cleans and compiles the TypeScript project into `dist/` folder      |
@@ -257,20 +257,20 @@ npm run docker:adminer:stop
 
 ### 🔁 Prisma Commands
 
-| Script                      | Description                                           |
-| --------------------------- | ----------------------------------------------------- |
-| `prisma:generate`           | Generates Prisma client code                          |
-| `prisma:generate:watch`     | Watches Prisma schema and regenerates on change       |
-| `migrate:local:create`      | Creates a new migration locally                       |
-| `migrate:local`             | Runs local development migration                      |
-| `migrate:local:pull`        | Pulls DB schema into Prisma                           |
-| `migrate:local:reset`       | Resets local DB and reruns all migrations and seeders |
-| `migrate:deploy:production` | Deploys migration to production DB                    |
-| `migrate:status`            | Shows current migration status                        |
-| `prisma:studio`             | Opens Prisma Studio (Web UI for DB)                   |
-| `prisma:seed:local`         | Seeds DB using local.env                              |
-| `prisma:seed:test`          | Seeds DB using test.env                               |
-| `prisma:seed:production`    | Seeds DB using production.env                         |
+| Script                      | Description                                         |
+| --------------------------- | --------------------------------------------------- |
+| `prisma:generate`           | Generates Prisma client code                        |
+| `prisma:generate:watch`     | Watches Prisma schema and regenerates on change     |
+| `migrate:dev:create`        | Creates a new migration locally                     |
+| `migrate:dev`               | Runs dev development migration                      |
+| `migrate:dev:pull`          | Pulls DB schema into Prisma                         |
+| `migrate:dev:reset`         | Resets dev DB and reruns all migrations and seeders |
+| `migrate:deploy:production` | Deploys migration to production DB                  |
+| `migrate:status`            | Shows current migration status                      |
+| `prisma:studio`             | Opens Prisma Studio (Web UI for DB)                 |
+| `prisma:seed:dev`           | Seeds DB using dev.env                              |
+| `prisma:seed:test`          | Seeds DB using test.env                             |
+| `prisma:seed:production`    | Seeds DB using production.env                       |
 
 ---
 
@@ -278,7 +278,7 @@ npm run docker:adminer:stop
 
 ```
 .
-├── env/                  # All .env files (local.env, test.env, production.env)
+├── env/                  # All .env files (dev.env, test.env, production.env)
 ├── prisma/               # Prisma schema, migrations, and seeders
 ├── src/                  # Main source code
 ├── test/                 # Unit and E2E tests

@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
 // ✅ Load environment variables
-const NODE_ENV = process.env.NODE_ENV || 'local';
+const NODE_ENV = process.env.NODE_ENV || 'dev';
 const envPath = path.resolve(process.cwd(), `env/${NODE_ENV}.env`);
 
 const result = dotenv.config({ path: envPath });
