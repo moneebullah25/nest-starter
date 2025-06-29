@@ -6,9 +6,7 @@ This project contains boilerplate for creating APIs using [Nest](https://nestjs.
 
 It is mostly built to be used as a starting point in hackathons and implements common operations such as sign up, JWT authentication, mail validation, model validation and database access.
 
-You can also look at my [Angular Hackathon Starter](https://github.com/moneebullah25/angular-hackathon-starter) template that shares the same contract with this API.
-
----
+## Clone this repository by running `git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>` or [directly create your own GitHub repository using this template](https://github.com/moneebullah25/nest-starter/generate).
 
 ## 🚀 Features
 
@@ -39,7 +37,7 @@ You can also look at my [Angular Hackathon Starter](https://github.com/moneebull
 ## 📁 Project Setup
 
 ```bash
-git clone https://github.com/moneebullah25/nest-hackathon-starter.git <YOUR_PROJECT_NAME>
+git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>
 cd <YOUR_PROJECT_NAME>
 npm ci
 ```
