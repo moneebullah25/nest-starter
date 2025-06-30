@@ -112,9 +112,9 @@ A delivery provider is required for sending mails with Nodemailer. I mostly use 
 
 To get a SendGrid API key:
 
-    Create a free account from https://signup.sendgrid.com/
-    Confirm your account via the activation email and login.
-    Create an API Key with mail sending capability.
+- Create a free account from https://signup.sendgrid.com/
+- Confirm your account via the activation email and login.
+- Create an API Key with mail sending capability.
 
 Enter your API key and sender credentials to env file. Sender credentials are the sender name and sender mail that will be seen by your users.
 

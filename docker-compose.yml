@@ -9,6 +9,7 @@ services:
     environment:
       PORT: ${PORT}
       NODE_ENV: ${NODE_ENV}
+      # Override DATABASE_HOST variable if postgres container is used as DB
       DATABASE_HOST: postgres
       DATABASE_URL: ${DATABASE_URL}
     depends_on:
