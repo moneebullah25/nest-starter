@@ -30,6 +30,7 @@
     "migrate:deploy:dev": "dotenv -e env/dev.env -- prisma migrate deploy --preview-feature",
     "migrate:status": "npx prisma migrate status --preview-feature",
     "migrate:resolve": "npx prisma migrate resolve --preview-feature",
+    "lint:staged": "lint-staged",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate",
     "prisma:generate:watch": "npx prisma generate --watch",
@@ -50,6 +51,8 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
+      "npm run lint",
+      "npm run test",
       "cross-env NODE_ENV=development eslint --cache --fix",
       "node jest-env-runner.js"
     ],
