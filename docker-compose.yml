@@ -1,6 +1,6 @@
 services:
-  nest-template-api:
-    container_name: nest-template-api
+  nest-api:
+    container_name: nest-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,11 +9,12 @@ services:
     environment:
       PORT: ${PORT}
       NODE_ENV: ${NODE_ENV}
-      # Override DATABASE_HOST variable if postgres container is used as DB
       DATABASE_HOST: postgres
       DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - postgres
+    networks:
+      - nest-network
 
   postgres:
     image: postgres:15
@@ -27,7 +28,13 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - nest-network
 
 volumes:
   postgres:
-    name: nest-template-db
+    name: nest-db
+
+networks:
+  nest-network:
+    driver: bridge
