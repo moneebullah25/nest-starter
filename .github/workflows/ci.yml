@@ -26,6 +26,10 @@ jobs:
           corepack enable
           corepack prepare pnpm@latest --activate
 
+      - name: ♻️ Add pnpm to PATH manually
+        run: echo "$(corepack which pnpm)" >> $GITHUB_PATH
+
+
       - name: 🧹 Clean Prisma Artifacts
         run: |
           rm -rf node_modules/.prisma
