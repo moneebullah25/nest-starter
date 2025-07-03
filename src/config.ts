@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
 const NODE_ENV = process.env.NODE_ENV || 'dev';
-const envPath = path.resolve(process.cwd(), `env/${NODE_ENV}.env`);
+const envPath = path.resolve(process.cwd(), `.env.${NODE_ENV}`);
 
 const result = dotenv.config({ path: envPath });
 dotenvExpand.expand(result);

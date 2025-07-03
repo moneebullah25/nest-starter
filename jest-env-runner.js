@@ -5,7 +5,7 @@ import dotenvExpand from 'dotenv-expand';
 import { spawn } from 'child_process';
 
 // Load and expand environment variables
-const myEnv = dotenv.config({ path: 'env/test.env' });
+const myEnv = dotenv.config({ path: '.env.test' });
 dotenvExpand.expand(myEnv);
 
 // Run jest with expanded env

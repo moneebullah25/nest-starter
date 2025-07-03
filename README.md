@@ -48,13 +48,13 @@ npm ci
 
 All environment-specific configurations are managed inside the `env/` directory. You should maintain separate `.env` files for each environment:
 
-- `env/dev.env`
-- `env/test.env`
-- `env/prod.env`
+- `.env.dev`
+- `.env.test`
+- `.env.prod`
 
 These files contain sensitive variables like DB URLs, API keys, mail credentials, and project metadata.
 
-Here is an example of a `env/test.env` file:
+Here is an example of a `.env.test` file:
 
 ```dotenv
 NODE_ENV=test
@@ -193,7 +193,7 @@ npm run test:watch      # Watches and reruns tests
 npm run test:e2e        # End-to-end tests using Jest & Supertest
 ```
 
-> Uses `env/test.env` during tests for isolation.
+> Uses `.env.test` during tests for isolation.
 
 ---
 
@@ -204,7 +204,7 @@ Run your API and PostgreSQL using Docker for clean environment management.
 ### Build and Start Containers
 
 ```bash
-npm run docker:dev             # Start using env/dev.env
+npm run docker:dev             # Start using .env.dev
 npm run docker:test              # Start with test environment
 npm run docker:prod        # Start prod environment
 ```
@@ -235,10 +235,10 @@ npm run docker:adminer:stop
 
 | Script        | Description                                                         |
 | ------------- | ------------------------------------------------------------------- |
-| `start`       | Runs Nest app using env/dev.env                                     |
+| `start`       | Runs Nest app using .env.dev                                        |
 | `start:dev`   | Same as above but with file watching enabled                        |
-| `start:test`  | Starts app using env/test.env                                       |
-| `start:prod`  | Compiles app and runs using env/prod.env                            |
+| `start:test`  | Starts app using .env.test                                          |
+| `start:prod`  | Compiles app and runs using .env.prod                               |
 | `build`       | Cleans and compiles the TypeScript project into `dist/` folder      |
 | `clean`       | Removes the compiled `dist/` folder                                 |
 | `postinstall` | Automatically generates Prisma client after dependency installation |
@@ -247,7 +247,7 @@ npm run docker:adminer:stop
 
 | Script       | Description                                          |
 | ------------ | ---------------------------------------------------- |
-| `test`       | Runs Jest with env/test.env                          |
+| `test`       | Runs Jest with .env.test                             |
 | `test:watch` | Automatically reruns tests on file changes           |
 | `test:e2e`   | Runs end-to-end tests with Jest + Supertest          |
 | `lint`       | Lints all TypeScript files using ESLint with autofix |
@@ -266,9 +266,9 @@ npm run docker:adminer:stop
 | `migrate:deploy:prod`   | Deploys migration to prod DB                        |
 | `migrate:status`        | Shows current migration status                      |
 | `prisma:studio`         | Opens Prisma Studio (Web UI for DB)                 |
-| `prisma:seed:dev`       | Seeds DB using dev.env                              |
-| `prisma:seed:test`      | Seeds DB using test.env                             |
-| `prisma:seed:prod`      | Seeds DB using prod.env                             |
+| `prisma:seed:dev`       | Seeds DB using .env.dev                             |
+| `prisma:seed:test`      | Seeds DB using .env.test                            |
+| `prisma:seed:prod`      | Seeds DB using .env.prod                            |
 
 ---
 
@@ -276,7 +276,7 @@ npm run docker:adminer:stop
 
 ```
 .
-├── env/                  # All .env files (dev.env, test.env, prod.env)
+├── env/                  # All .env files (.env.dev, .env.test, .env.prod)
 ├── prisma/               # Prisma schema, migrations, and seeders
 ├── src/                  # Main source code
 ├── test/                 # Unit and E2E tests

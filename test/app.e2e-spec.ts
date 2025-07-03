@@ -12,7 +12,7 @@ describe('AppController (e2e)', () => {
       imports: [
         AppModule,
         ConfigModule.forRoot({
-          envFilePath: 'env/test.env',
+          envFilePath: '.env.test',
         }),
       ],
     }).compile();
