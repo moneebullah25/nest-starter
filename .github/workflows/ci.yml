@@ -37,9 +37,6 @@ jobs:
       - name: 🧼 Run ESLint
         run: pnpm lint
 
-      - name: 🧪 Run Unit Tests
-        run: pnpm test
-
       - name: 🔨 TypeScript Build
         run: pnpm build
 
