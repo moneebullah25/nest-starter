@@ -10,8 +10,12 @@ import { AppController } from './app.controller';
 @Module({
   imports: [
     ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 50,
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
     }),
     UserModule,
     AuthModule,

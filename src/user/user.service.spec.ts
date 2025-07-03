@@ -32,7 +32,7 @@ describe('UserService', () => {
 
       await service.getUserEntityById(id);
 
-      expect(spyPrismaService.user.findUnique).toBeCalledTimes(1);
+      expect(spyPrismaService.user.findUnique).toHaveBeenCalledTimes(1);
       expect(spyPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { id },
       });
@@ -54,8 +54,8 @@ describe('UserService', () => {
 
       await service.getUserEntityByUsername(username);
 
-      expect(spyPrismaService.user.findUnique).toBeCalledTimes(1);
-      expect(spyPrismaService.user.findUnique).toBeCalledWith({
+      expect(spyPrismaService.user.findUnique).toHaveBeenCalledTimes(1);
+      expect(spyPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { username: username.toLowerCase() },
       });
     });

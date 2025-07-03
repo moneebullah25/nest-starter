@@ -28,7 +28,7 @@ Clone this repository by running `git clone https://github.com/moneebullah25/nes
 ### ✅ Prerequisites
 
 - **Node.js ≥ 16**
-- **NPM or Yarn**
+- **pnpm or Yarn**
 - **PostgreSQL (Local or Docker)**
 - **Docker & Docker Compose** (for containerized development)
 
@@ -39,7 +39,7 @@ Clone this repository by running `git clone https://github.com/moneebullah25/nes
 ```bash
 git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>
 cd <YOUR_PROJECT_NAME>
-npm ci
+pnpm ci
 ```
 
 ---
@@ -172,9 +172,9 @@ This project uses [Prisma](https://www.prisma.io/) as the ORM for PostgreSQL. Pr
 After setting your `DATABASE_URL` in the env file, you can run the following commands:
 
 ```bash
-npm run prisma:generate         # Generate Prisma client
-npm run migrate:dev           # Apply dev migrations
-npm run prisma:studio           # Open Prisma web GUI
+pnpm run prisma:generate         # Generate Prisma client
+pnpm run migrate:dev           # Apply dev migrations
+pnpm run prisma:studio           # Open Prisma web GUI
 ```
 
 Use `seed.ts` files for seeding test data.
@@ -188,9 +188,9 @@ Tests are written using [Jest](https://jestjs.io/) and run inside the `test/` di
 ### Run tests:
 
 ```bash
-npm run test            # Runs all unit tests
-npm run test:watch      # Watches and reruns tests
-npm run test:e2e        # End-to-end tests using Jest & Supertest
+pnpm run test            # Runs all unit tests
+pnpm run test:watch      # Watches and reruns tests
+pnpm run test:e2e        # End-to-end tests using Jest & Supertest
 ```
 
 > Uses `.env.test` during tests for isolation.
@@ -204,32 +204,32 @@ Run your API and PostgreSQL using Docker for clean environment management.
 ### Build and Start Containers
 
 ```bash
-npm run docker:dev             # Start using .env.dev
-npm run docker:test              # Start with test environment
-npm run docker:prod        # Start prod environment
+pnpm run docker:dev             # Start using .env.dev
+pnpm run docker:test              # Start with test environment
+pnpm run docker:prod        # Start prod environment
 ```
 
 You can also run database or Adminer container only:
 
 ```bash
-npm run docker:db:dev
-npm run docker:adminer:dev
-npm run docker:db:test
-npm run docker:adminer:test
-npm run docker:db:prod
-npm run docker:adminer:prod
+pnpm run docker:db:dev
+pnpm run docker:adminer:dev
+pnpm run docker:db:test
+pnpm run docker:adminer:test
+pnpm run docker:db:prod
+pnpm run docker:adminer:prod
 ```
 
 Stop them with:
 
 ```bash
-npm run docker:db:stop
-npm run docker:adminer:stop
+pnpm run docker:db:stop
+pnpm run docker:adminer:stop
 ```
 
 ---
 
-## 📜 NPM Scripts Overview
+## 📜 pnpm Scripts Overview
 
 ### 📦 Build & Start
 
@@ -302,8 +302,8 @@ Contributions are welcome!
 Please make sure to lint and test your changes:
 
 ```bash
-npm run lint
-npm run test
+pnpm run lint
+pnpm run test
 ```
 
 ---

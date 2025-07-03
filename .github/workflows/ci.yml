@@ -15,40 +15,42 @@ jobs:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🟢 Set up Node.js
+      - name: 🟢 Set up Node.js and pnpm
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-          cache: 'npm'
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: 🔧 Enable Corepack and prepare pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
 
       - name: 🧹 Clean Prisma Artifacts
         run: |
           rm -rf node_modules/.prisma
           rm -rf node_modules/@prisma/client
 
-      - name: 🚫 Skip postinstall in CI
-        run: npm config set ignore-scripts true
-
-      - name: 📦 Install dependencies
-        run: npm install --legacy-peer-deps
+      - name: 📦 Install dependencies with pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: 🔧 Run Prisma Generate
-        run: npx prisma generate
+        run: pnpm prisma generate
 
       - name: 🧼 Run ESLint
-        run: npm run lint
+        run: pnpm lint
 
       - name: 🧪 Run Unit Tests
-        run: npm run test
+        run: pnpm test
 
       - name: 🔨 TypeScript Build
-        run: npm run build
+        run: pnpm build
 
       - name: 🐶 Run Lint-Staged Hooks
-        run: npm run lint:staged
+        run: pnpm lint:staged
 
       - name: 🐳 Build Docker Image (prod)
-        run: npm run docker:prod:build
+        run: pnpm docker:prod:build
 
   block-main-direct-push:
     name: 🚫 Prevent direct push to main
