@@ -23,8 +23,6 @@ jobs:
       - name: 🧩 Install pnpm
         run: npm install -g pnpm
 
-
-
       - name: 🧹 Clean Prisma Artifacts
         run: |
           rm -rf node_modules/.prisma

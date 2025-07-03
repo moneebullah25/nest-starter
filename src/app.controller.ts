@@ -6,7 +6,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AppController {
   @Get()
   @HttpCode(HttpStatus.OK)
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+   
   healthCheck(): string {
     return 'Hello world';
   }
