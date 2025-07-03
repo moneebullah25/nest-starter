@@ -21,8 +21,19 @@ jobs:
           node-version: 16
           cache: 'npm'
 
+      - name: 🧹 Clean Prisma Artifacts
+        run: |
+          rm -rf node_modules/.prisma
+          rm -rf node_modules/@prisma/client
+
+      - name: 🚫 Skip postinstall in CI
+        run: npm config set ignore-scripts true
+
       - name: 📦 Install dependencies
         run: npm install --legacy-peer-deps
+
+      - name: 🔧 Run Prisma Generate
+        run: npx prisma generate
 
       - name: 🧼 Run ESLint
         run: npm run lint
