@@ -20,14 +20,10 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
+          
+      - name: 🧩 Install pnpm
+        run: npm install -g pnpm
 
-      - name: 🔧 Enable Corepack and prepare pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-
-      - name: ♻️ Add pnpm to PATH manually
-        run: echo "$(corepack which pnpm)" >> $GITHUB_PATH
 
 
       - name: 🧹 Clean Prisma Artifacts
