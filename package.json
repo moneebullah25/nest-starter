@@ -54,7 +54,7 @@
     "*.{js,ts}": [
       "pnpm run lint",
       "pnpm run test",
-      "cross-env NODE_ENV=development eslint --cache --fix",
+      "cross-env NODE_ENV=test eslint --cache --fix",
       "node jest-env-runner.js"
     ],
     "{*.json,.{prettierrc}}": [
@@ -131,19 +131,9 @@
     "typescript-eslint": "^8.35.1"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "roots": [
-      "src",
-      "test"
-    ],
-    "setupFilesAfterEnv": [
-      "jest-extended",
-      "./jest.setup.ts"
-    ],
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "roots": ["src", "test"],
+    "setupFilesAfterEnv": ["jest-extended", "./jest.setup.ts"],
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
