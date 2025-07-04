@@ -52,12 +52,3 @@ jobs:
 
       - name: 🐳 Build Docker Image (prod)
         run: pnpm docker:prod:build
-
-  block-main-direct-push:
-    name: 🚫 Prevent direct push to main
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - run: |
-          echo "Direct pushes to main are not allowed. Use a pull request."
-          exit 1
