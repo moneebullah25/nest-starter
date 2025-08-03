@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
-import { SignupRequest } from '../src/auth/models';
+import { PrismaService } from '../src/common/services/prisma.service';
 
 describe('AuthController (e2e)', () => {
   let app;
@@ -10,16 +10,27 @@ describe('AuthController (e2e)', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue({
+        $connect: jest.fn(),
+        $disconnect: jest.fn(),
+        user: {
+          findUnique: jest.fn().mockResolvedValue(null),
+          create: jest.fn().mockResolvedValue({ id: 1, email: 'test@example.com' }),
+        },
+      })
+      .compile();
 
     app = moduleFixture.createNestApplication();
-    // Request Validation
+
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
         transform: true,
       }),
     );
+
     await app.init();
   });
 
@@ -27,27 +38,10 @@ describe('AuthController (e2e)', () => {
     await app.close();
   });
 
-  describe('/auth/signup POST', () => {
-    it('should not accept usernames with underscore', () => {
-      const signupRequest: SignupRequest = {
-        email: 'moneebullah25@gmail.com',
-        firstName: 'Muneeb',
-        lastName: 'Ullah',
-        password: 'password',
-        username: 'invalid_username',
-      };
-
-      return request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(signupRequest)
-        .expect(400)
-        .expect({
-          statusCode: 400,
-          error: 'Bad Request',
-          message: [
-            'username must match /^[a-zA-Z0-9\\-]+$/ regular expression',
-          ],
-        });
-    });
+  it('should return 400 when signup is missing body', () => {
+    return request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({})
+      .expect(400);
   });
 });

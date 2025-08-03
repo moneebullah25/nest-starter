@@ -231,6 +231,8 @@ pnpm run docker:adminer:stop
 
 ## 📜 pnpm Scripts Overview
 
+See scripts section in package.json file for all scripts available
+
 ### 📦 Build & Start
 
 | Script        | Description                                                         |
@@ -276,15 +278,18 @@ pnpm run docker:adminer:stop
 
 ```
 .
-├── env/                  # All .env files (.env.dev, .env.test, .env.prod)
-├── prisma/               # Prisma schema, migrations, and seeders
-├── src/                  # Main source code
-├── test/                 # Unit and E2E tests
-├── dist/                 # Compiled output after build
-├── Dockerfile            # Docker build instructions
-├── docker-compose.yml    # Docker Compose config
-├── docker-compose.db.yml # DB-only Compose file
-├── README.md             # You're here!
+├── prisma/                    # Prisma schema, migrations, and seeders
+├── src/                       # Main source code
+├── test/                      # Unit and E2E tests
+├── dist/                      # Compiled output after build
+├── Dockerfile                 # Docker build instructions
+├── docker-compose.yml         # Docker Compose config
+├── docker-compose.db.yml      # DB-only Compose file
+├── docker-compose.adminer.yml # DB-only Compose file
+├── README.md                  # You're here!
+├── .env.dev                   # ENV File for Dev environment
+├── .env.prod                  # ENV File for Dev production
+├── .env.test                  # ENV File for Dev testing
 ```
 
 ---

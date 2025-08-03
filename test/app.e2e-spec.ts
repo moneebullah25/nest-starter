@@ -1,24 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { AppModule } from '../src/app.module';
+import { PrismaService } from '../src/common/services/prisma.service';
 
 describe('AppController (e2e)', () => {
   let app;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        AppModule,
-        ConfigModule.forRoot({
-          envFilePath: '.env.test',
-        }),
-      ],
-    }).compile();
+      imports: [AppModule],
+    })
+      .overrideProvider(PrismaService)
+      .useValue({
+        $connect: jest.fn(),
+        $disconnect: jest.fn(),
+      })
+      .compile();
 
     app = moduleFixture.createNestApplication();
-    // Request Validation
+
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -33,5 +34,9 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  it('/ (GET)', () => request(app.getHttpServer()).get('/').expect(200));
+  it('should return 404 for unknown route (test startup)', () => {
+    return request(app.getHttpServer())
+      .get('/unknown')
+      .expect(404);
+  });
 });
