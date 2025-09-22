@@ -1,3 +1,18 @@
+FROM node:22-alpine AS dev
+
+# System deps for Prisma engines on Alpine
+RUN apk add --no-cache libc6-compat openssl \
+    && corepack enable && corepack prepare pnpm@9 --activate
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml ./
+COPY prisma ./prisma/
+RUN pnpm install
+
+# Copy source for dev
+COPY . .
+
 FROM node:22-alpine AS build
 
 # System deps for Prisma engines on Alpine

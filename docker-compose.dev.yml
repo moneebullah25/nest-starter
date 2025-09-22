@@ -6,7 +6,7 @@ services:
     working_dir: /app
     build:
       context: .
-      dockerfile: Dockerfile.alpine
+      dockerfile: Dockerfile
       target: dev
     command: sh -c "corepack enable && corepack prepare pnpm@9 --activate && pnpm install --no-frozen-lockfile && pnpm exec nest start --watch"
     env_file: .env.dev
