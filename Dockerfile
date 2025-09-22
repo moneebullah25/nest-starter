@@ -1,40 +1,45 @@
-FROM node:22 AS builder
+FROM node:22-alpine AS build
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# System deps for Prisma engines on Alpine
+RUN apk add --no-cache libc6-compat openssl
 
-# Create app directory
+# Use corepack to manage pnpm reliably
+RUN corepack enable && corepack prepare pnpm@9 --activate
+
 WORKDIR /app
 
-# Copy lockfile and package.json
-COPY pnpm-lock.yaml* ./
-COPY package.json ./
+# Install dependencies with good caching
+COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma/
-COPY .env* ./
+RUN pnpm install --frozen-lockfile
 
-# Install dependencies using pnpm
-RUN pnpm install
-
-# Copy rest of the application source code
+# Build
 COPY . .
+RUN pnpm build
 
-# Build the project
-RUN pnpm run build
+# Prune production dependencies in a separate stage
+FROM build AS builder
+RUN pnpm prune --prod
 
-# Production image
-FROM node:22
+# Runtime image
+FROM node:22-alpine
 
-# Install pnpm globally again (needed in prod container too)
-RUN npm install -g pnpm 
+# System deps for Prisma engines on Alpine
+RUN apk add --no-cache libc6-compat openssl
 
 WORKDIR /app
+ENV NODE_ENV=production
 
-# Copy only what's needed for production
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/.env* ./ 
+# Drop root privileges
+USER node
 
-EXPOSE ${PORT}
-CMD [ "pnpm", "run", "start:prod" ]
+# Copy only what runtime needs
+COPY --chown=node:node --from=builder /app/node_modules ./node_modules
+COPY --chown=node:node --from=builder /app/package.json ./package.json
+COPY --chown=node:node --from=builder /app/dist ./dist
+
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://127.0.0.1:3000/', r => process.exit(r.statusCode===200?0:1)).on('error', () => process.exit(1))"
+
+CMD ["node", "dist/src/main.js"]

@@ -5,25 +5,29 @@ import helmet from 'helmet';
 import * as requestIp from 'request-ip';
 import { AppModule } from './app.module';
 import * as path from 'path';
+import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
 // ✅ Load environment variables
 const NODE_ENV = process.env.NODE_ENV || 'dev';
-const envPath = path.resolve(process.cwd(), `.env.${NODE_ENV}`);
+const envFileMap: Record<string, string> = {
+  production: '.env.prod',
+  development: '.env.dev',
+  dev: '.env.dev',
+  test: '.env.test',
+};
+const mappedEnvFile = envFileMap[NODE_ENV] || `.env.${NODE_ENV}`;
+const envPath = path.resolve(process.cwd(), mappedEnvFile);
 
-const result = dotenv.config({ path: envPath });
-dotenvExpand.expand(result);
-
-if (result.error) {
-  console.warn(`⚠️  Failed to load env file at ${envPath}:`, result.error);
-} else {
-  console.log(
-    `✅ Loaded env file for '${NODE_ENV}' environment from: ${envPath}`,
-  );
-  console.log(
-    `🔐 Loaded PORT: ${process.env.PORT}, DATABASE_URL: ${process.env.DATABASE_URL}`,
-  );
+if (fs.existsSync(envPath)) {
+  const result = dotenv.config({ path: envPath });
+  dotenvExpand.expand(result);
+  if (!result.error) {
+    console.log(
+      `✅ Loaded env file for '${NODE_ENV}' environment from: ${envPath}`,
+    );
+  }
 }
 
 // ✅ Import config and log something from it

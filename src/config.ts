@@ -1,15 +1,22 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
 const NODE_ENV = process.env.NODE_ENV || 'dev';
-const envPath = path.resolve(process.cwd(), `.env.${NODE_ENV}`);
+const envFileMap: Record<string, string> = {
+  production: '.env.prod',
+  development: '.env.dev',
+  dev: '.env.dev',
+  test: '.env.test',
+};
+const mappedEnvFile = envFileMap[NODE_ENV] || `.env.${NODE_ENV}`;
+const envPath = path.resolve(process.cwd(), mappedEnvFile);
 
-const result = dotenv.config({ path: envPath });
-dotenvExpand.expand(result);
-
-if (result.error) {
-  throw new Error(`❌ Failed to load env file at ${envPath}: ${result.error}`);
+// Only load .env.* file if it exists. In containers we use env vars via compose.
+if (fs.existsSync(envPath)) {
+  const result = dotenv.config({ path: envPath });
+  dotenvExpand.expand(result);
 }
 
 // Helper to ensure required env vars are set
