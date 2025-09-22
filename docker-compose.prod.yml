@@ -1,3 +1,5 @@
+name: nest-starter-prod
+
 services:
   api:
     build:
@@ -8,6 +10,7 @@ services:
     environment:
       NODE_ENV: production
       DATABASE_HOST: postgres
+      DATABASE_URL: postgresql://${DATABASE_USERNAME:-postgres}:${DATABASE_PASSWORD:-postgres}@postgres:${DATABASE_PORT:-5432}/${DATABASE_NAME:-starter}
     ports:
       - '${EXTERNAL_PORT:-3000}:${INTERNAL_PORT:-3000}'
     depends_on:

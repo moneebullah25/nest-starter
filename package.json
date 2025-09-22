@@ -12,7 +12,7 @@
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "prepare": "husky install",
+    "prepare": "sh -c 'command -v husky >/dev/null 2>&1 && husky install || true'",
     "start": "pnpm exec dotenv -e .env.dev -- nest start",
     "start:dev": "pnpm exec dotenv -e .env.dev -- nest start --watch",
     "start:test": "pnpm exec dotenv -e .env.test -- nest start --watch",

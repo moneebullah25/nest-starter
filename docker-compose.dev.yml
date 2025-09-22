@@ -1,3 +1,5 @@
+name: nest-starter-dev
+
 services:
   api:
     container_name: nest-api-dev
