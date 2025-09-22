@@ -8,7 +8,7 @@ It is mostly built to be used as a starting point in hackathons and implements c
 
 Clone this repository by running `git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>` or [directly create your own GitHub repository using this template](https://github.com/moneebullah25/nest-starter/generate).
 
-## 🚀 Features
+## Features
 
 1. **PostgreSQL with Prisma** – Easy-to-use and scalable relational database integration with auto-generated types.
 2. **JWT Authentication** – Secure login and session management using JSON Web Tokens.
@@ -23,18 +23,18 @@ Clone this repository by running `git clone https://github.com/moneebullah25/nes
 
 ---
 
-## 🛠 Getting Started
+## Getting Started
 
-### ✅ Prerequisites
+### Prerequisites
 
-- **Node.js ≥ 16**
-- **pnpm or Yarn**
-- **PostgreSQL (Local or Docker)**
-- **Docker & Docker Compose** (for containerized development)
+Node.js 16 or newer
+pnpm
+PostgreSQL (local or Docker)
+Docker and Docker Compose
 
 ---
 
-## 📁 Project Setup
+## Project Setup
 
 ```bash
 git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>
@@ -44,30 +44,31 @@ pnpm ci
 
 ---
 
-## 📦 Environment Configuration
+## Environment Configuration
 
-All environment-specific configurations are managed inside the `env/` directory. You should maintain separate `.env` files for each environment:
+Environment files live at the project root. Keep separate files for each environment
 
-- `.env.dev`
-- `.env.test`
-- `.env.prod`
+`.env.dev`
+`.env.test`
+`.env.prod`
 
-These files contain sensitive variables like DB URLs, API keys, mail credentials, and project metadata.
+These files contain sensitive variables such as database URLs, API keys, mail credentials and project metadata.
 
-Here is an example of a `.env.test` file:
+Example `.env.dev` file
 
 ```dotenv
-NODE_ENV=test
+NODE_ENV=development
 
-DATABASE_HOST=localhost
+EXTERNAL_PORT=3000
+INTERNAL_PORT=3000
+
+DATABASE_HOST=postgres
 DATABASE_PORT=5432
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_NAME=starter
 
 ADMINER_PORT=8080
-
-PORT=3000
 
 DATABASE_URL="postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}"
 
@@ -104,7 +105,7 @@ TERMS_OF_SERVICE_URL=http://localhost:4200/legal/terms
 
 ---
 
-## ✉️ Mail Configuration (Nodemailer & SendGrid)
+## Mail Configuration (Nodemailer and SendGrid)
 
 This project uses [Nodemailer](https://nodemailer.com/about/) with **SendGrid SMTP** for sending transactional emails (verification, password reset, etc).
 
@@ -134,7 +135,7 @@ All email credentials and sender configurations are loaded dynamically via `conf
 
 ---
 
-## 📬 Mail Template Configurations
+## Mail Template Configurations
 
 The mail templates are dynamically populated using values defined in your environment file. These values include:
 
@@ -159,13 +160,13 @@ PROJECT_SOCIAL_GITHUB=https://github.com/your-repo
 
 ---
 
-## 📄 Swagger API Docs
+## Swagger API Docs
 
 Swagger UI is available at `/api` when you run the server. It displays all available routes, DTOs, and expected request/response formats.
 
 ---
 
-## 🗃 Database & Prisma
+## Database and Prisma
 
 This project uses [Prisma](https://www.prisma.io/) as the ORM for PostgreSQL. Prisma makes it easy to manage and migrate your schema.
 
@@ -181,7 +182,7 @@ Use `seed.ts` files for seeding test data.
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Tests are written using [Jest](https://jestjs.io/) and run inside the `test/` directory.
 
@@ -197,55 +198,71 @@ pnpm run test:e2e        # End-to-end tests using Jest & Supertest
 
 ---
 
-## 🐳 Docker Support
+## Docker Support
 
-Run your API and PostgreSQL using Docker for clean environment management.
+This repository provides a production grade multi stage image and separate compose files for development and production.
 
-### Build and Start Containers
+Development
 
-```bash
-pnpm run docker:dev             # Start using .env.dev
-pnpm run docker:test              # Start with test environment
-pnpm run docker:prod        # Start prod environment
-```
+The development stack uses bind mounts and hot reload. It installs dependencies inside the container at startup so the Nest CLI and TypeScript tooling are available without bloating the image. The API listens on INTERNAL_PORT and is published on EXTERNAL_PORT.
 
-You can also run database or Adminer container only:
+Run
 
 ```bash
-pnpm run docker:db:dev
-pnpm run docker:adminer:dev
-pnpm run docker:db:test
-pnpm run docker:adminer:test
-pnpm run docker:db:prod
-pnpm run docker:adminer:prod
+pnpm run docker:dev
 ```
 
-Stop them with:
+Stop and remove volumes
 
 ```bash
-pnpm run docker:db:stop
-pnpm run docker:adminer:stop
+pnpm run docker:dev:down
 ```
+
+Production
+
+The production image is built with a separate build stage and a pruned runtime stage that runs as a non root user. Prisma migrations are executed by a dedicated migrate service before the API starts. Environment files are not copied into images; compose passes environment variables at runtime.
+
+Build images
+
+```bash
+pnpm run docker:prod:build
+```
+
+Start
+
+```bash
+pnpm run docker:prod
+```
+
+Stop and remove volumes
+
+```bash
+pnpm run docker:prod:down
+```
+
+Ports
+
+Set EXTERNAL_PORT and INTERNAL_PORT in your environment files if you need something other than the default of 3000. Health checks in compose target the internal port.
 
 ---
 
-## 📜 pnpm Scripts Overview
+## pnpm Scripts Overview
 
 See scripts section in package.json file for all scripts available
 
-### 📦 Build & Start
+### Build and Start
 
-| Script        | Description                                                         |
-| ------------- | ------------------------------------------------------------------- |
-| `start`       | Runs Nest app using .env.dev                                        |
-| `start:dev`   | Same as above but with file watching enabled                        |
-| `start:test`  | Starts app using .env.test                                          |
-| `start:prod`  | Compiles app and runs using .env.prod                               |
-| `build`       | Cleans and compiles the TypeScript project into `dist/` folder      |
-| `clean`       | Removes the compiled `dist/` folder                                 |
-| `postinstall` | Automatically generates Prisma client after dependency installation |
+| Script        | Description                                                    |
+| ------------- | -------------------------------------------------------------- |
+| `start`       | Runs Nest app using .env.dev                                   |
+| `start:dev`   | Runs Nest app using .env.dev with file watching                |
+| `start:test`  | Starts app using .env.test                                     |
+| `start:prod`  | Compiles app and runs using .env.prod                          |
+| `build`       | Cleans and compiles the TypeScript project into `dist/` folder |
+| `clean`       | Removes the compiled `dist/` folder                            |
+| `postinstall` | Not used in Docker builds                                      |
 
-### 🧪 Testing & Linting
+### Testing and Linting
 
 | Script       | Description                                          |
 | ------------ | ---------------------------------------------------- |
@@ -255,7 +272,7 @@ See scripts section in package.json file for all scripts available
 | `lint`       | Lints all TypeScript files using ESLint with autofix |
 | `format`     | Formats all source and test files using Prettier     |
 
-### 🔁 Prisma Commands
+### Prisma Commands
 
 | Script                  | Description                                         |
 | ----------------------- | --------------------------------------------------- |
@@ -274,7 +291,7 @@ See scripts section in package.json file for all scripts available
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 .
@@ -282,10 +299,12 @@ See scripts section in package.json file for all scripts available
 ├── src/                       # Main source code
 ├── test/                      # Unit and E2E tests
 ├── dist/                      # Compiled output after build
-├── Dockerfile                 # Docker build instructions
-├── docker-compose.yml         # Docker Compose config
-├── docker-compose.db.yml      # DB-only Compose file
-├── docker-compose.adminer.yml # DB-only Compose file
+├── Dockerfile                 # Production multi stage image
+├── Dockerfile.alpine          # Dev and production stages on Alpine
+├── docker-compose.dev.yml     # Development stack
+├── docker-compose.prod.yml    # Production stack
+├── docker-compose.db.yml      # DB only Compose file
+├── docker-compose.adminer.yml # Adminer only Compose file
 ├── README.md                  # You're here!
 ├── .env.dev                   # ENV File for Dev environment
 ├── .env.prod                  # ENV File for Dev production
@@ -294,7 +313,7 @@ See scripts section in package.json file for all scripts available
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome!
 
@@ -313,7 +332,7 @@ pnpm run test
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
 Originally created by [Muneeb Ullah](https://github.com/moneebullah25)
 

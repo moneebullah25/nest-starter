@@ -5,14 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.alpine
-      target: builder
-    command: sh -c "corepack enable && corepack prepare pnpm@9 --activate && pnpm install && pnpm run start:dev"
+      target: dev
+    command: sh -c "corepack enable && corepack prepare pnpm@9 --activate && pnpm install --no-frozen-lockfile && pnpm exec nest start --watch"
     env_file: .env.dev
     environment:
       NODE_ENV: development
       DATABASE_HOST: postgres
+      DATABASE_URL: postgresql://${DATABASE_USERNAME:-postgres}:${DATABASE_PASSWORD:-postgres}@postgres:${DATABASE_PORT:-5432}/${DATABASE_NAME:-starter}
     ports:
-      - "${PORT:-3000}:3000"
+      - '${EXTERNAL_PORT:-3000}:${INTERNAL_PORT:-3000}'
     volumes:
       - .:/app
       - /app/node_modules
@@ -20,7 +21,11 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/', r => process.exit(r.statusCode===200?0:1)).on('error', () => process.exit(1))"]
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "const p=process.env.INTERNAL_PORT||3000; require(''http'').get(''http://127.0.0.1:''+p+''/'', r => process.exit(r.statusCode===200?0:1)).on(''error'', () => process.exit(1))" ',
+        ]
       interval: 30s
       timeout: 3s
       retries: 3
@@ -33,14 +38,14 @@ services:
     container_name: postgres-dev
     restart: unless-stopped
     ports:
-      - "${DATABASE_PORT:-5432}:5432"
+      - '${DATABASE_PORT:-5432}:5432'
     env_file: .env.dev
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -53,7 +58,7 @@ services:
     image: adminer:latest
     container_name: adminer-dev
     ports:
-      - "${ADMINER_PORT:-8080}:8080"
+      - '${ADMINER_PORT:-8080}:8080'
     depends_on:
       - postgres
     networks:
@@ -65,4 +70,3 @@ volumes:
 networks:
   nest-network:
     driver: bridge
-

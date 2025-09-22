@@ -6,7 +6,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class AppController {
   @Get()
   @HttpCode(HttpStatus.OK)
-   
   healthCheck(): string {
     return 'Hello world';
   }

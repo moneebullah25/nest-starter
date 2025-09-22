@@ -35,8 +35,6 @@ describe('AppController (e2e)', () => {
   });
 
   it('should return 404 for unknown route (test startup)', () => {
-    return request(app.getHttpServer())
-      .get('/unknown')
-      .expect(404);
+    return request(app.getHttpServer()).get('/unknown').expect(404);
   });
 });

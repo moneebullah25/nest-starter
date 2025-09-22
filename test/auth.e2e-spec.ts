@@ -17,7 +17,9 @@ describe('AuthController (e2e)', () => {
         $disconnect: jest.fn(),
         user: {
           findUnique: jest.fn().mockResolvedValue(null),
-          create: jest.fn().mockResolvedValue({ id: 1, email: 'test@example.com' }),
+          create: jest
+            .fn()
+            .mockResolvedValue({ id: 1, email: 'test@example.com' }),
         },
       })
       .compile();
