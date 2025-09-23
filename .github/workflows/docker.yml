@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./Dockerfile.alpine
+          file: ./Dockerfile
           target: dev
           push: false
           tags: nest-starter:dev
