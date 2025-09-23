@@ -206,6 +206,8 @@ Development
 
 The development stack uses bind mounts and hot reload. It installs dependencies inside the container at startup so the Nest CLI and TypeScript tooling are available without bloating the image. The API listens on INTERNAL_PORT and is published on EXTERNAL_PORT.
 
+![alt text](doc/docker-dev.png)
+
 Run
 
 ```bash
@@ -221,6 +223,8 @@ pnpm run docker:dev:down
 Production
 
 The production image is built with a separate build stage and a pruned runtime stage that runs as a non root user. Prisma migrations are executed by a dedicated migrate service before the API starts. Environment files are not copied into images; compose passes environment variables at runtime.
+
+![alt text](doc/docker-prod.png)
 
 Build images
 
