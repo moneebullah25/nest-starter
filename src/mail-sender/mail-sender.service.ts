@@ -20,6 +20,7 @@ export class MailSenderService {
 
   constructor() {
     this.transporter = createTransport({
+      service: 'gmail',
       auth: {
         user: config.mail.service.user,
         pass: config.mail.service.pass,

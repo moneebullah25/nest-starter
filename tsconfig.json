@@ -15,7 +15,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "exclude": ["node_modules", "dist", "eslint.config.ts", "prisma/seed.ts"]
 }
