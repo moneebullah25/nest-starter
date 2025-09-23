@@ -198,6 +198,24 @@ pnpm run test:e2e        # End-to-end tests using Jest & Supertest
 
 ---
 
+## Husky
+
+Pre-commit and commit-msg hooks are already setup. Pre-commit hook runs tests and linting stuff whereas commit-msg hook make sure that the commit message follows the following convention:
+
+- `feat`: A new feature.
+- `fix`: A bug fix.
+- `docs`: Documentation changes.
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc.).
+- `refactor`: A code change that neither fixes a bug nor adds a feature.
+- `perf`: A code change that improves performance.
+- `test`: Adding missing tests or correcting existing tests.
+- `build`: Changes that affect the build system or external dependencies.
+- `ci`: Changes to CI configuration files and scripts.
+- `chore`: Other changes that don't modify src or test files.
+- `revert`: Reverts a previous commit.
+
+![alt text](doc/husky.png)
+
 ## Docker Support
 
 This repository provides a production grade multi stage image and separate compose files for development and production.
