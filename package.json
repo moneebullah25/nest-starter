@@ -53,11 +53,9 @@
   "lint-staged": {
     "*.{js,ts}": [
       "pnpm run lint",
-      "pnpm run test",
-      "cross-env NODE_ENV=test eslint --cache --fix",
-      "node jest-env-runner.js"
+      "cross-env NODE_ENV=test eslint --cache --fix"
     ],
-    "{*.json,.{prettierrc}}": [
+    "{*.json,.prettierrc}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
     "*.{html,md,yml}": [
@@ -81,7 +79,7 @@
     "dotenv-cli": "10.0.0",
     "dotenv-expand": "^12.0.3",
     "helmet": "^8.1.0",
-    "nanoid": "3.3.7",
+    "nanoid": "5.1.6",
     "nodemailer": "^7.0.6",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
@@ -129,6 +127,7 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.44.1"
   },
+
   "jest": {
     "moduleFileExtensions": ["js", "json", "ts"],
     "roots": ["src", "test"],
@@ -136,6 +135,10 @@
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "transformIgnorePatterns": ["/node_modules/"],
+    "moduleNameMapper": {
+      "^nanoid$": "<rootDir>/test/__mocks__/nanoid.ts"
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

@@ -60,8 +60,8 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
       nanoid:
-        specifier: 3.3.7
-        version: 3.3.7
+        specifier: 5.1.6
+        version: 5.1.6
       nodemailer:
         specifier: ^7.0.6
         version: 7.0.6
@@ -3219,9 +3219,9 @@ packages:
     resolution: {integrity: sha512-jtpsQDetTnvS2Ts1fiRdci5rx0VYws5jGyC+4IYOTnIQ/wwdf6JdomlHBwqC3bJYOvaKu0C2GSZ1A60anrYpaA==}
     engines: {node: '>=20.17'}
 
-  nanoid@3.3.7:
-    resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+  nanoid@5.1.6:
+    resolution: {integrity: sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg==}
+    engines: {node: ^18 || >=20}
     hasBin: true
 
   napi-postinstall@0.3.3:
@@ -7868,7 +7868,7 @@ snapshots:
 
   nano-spawn@1.0.3: {}
 
-  nanoid@3.3.7: {}
+  nanoid@5.1.6: {}
 
   napi-postinstall@0.3.3: {}
 
