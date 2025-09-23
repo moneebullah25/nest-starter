@@ -1,0 +1,87 @@
+name: Generate PR Description
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  generate-pull-request-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate PR Description
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: commits } = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            let description = '## Changes\n\n';
+
+            const fileTypes = {
+              Frontend: files.filter(f => /\.(tsx?|jsx?|css|scss)$/.test(f.filename)),
+              Backend: files.filter(f => /\.(ts|js)$/.test(f.filename) && !/\.(tsx?|jsx?)$/.test(f.filename)),
+              Config: files.filter(f => /\.(json|ya?ml|toml|env)$/.test(f.filename)),
+              Docs: files.filter(f => /\.(md|txt)$/.test(f.filename)),
+              Other: files.filter(f => !/\.(tsx?|jsx?|ts|js|css|scss|json|ya?ml|toml|env|md|txt)$/.test(f.filename)),
+            };
+
+            for (const [type, group] of Object.entries(fileTypes)) {
+              if (group.length > 0) {
+                description += `### ${type}\n`;
+                for (const file of group) {
+                  const map = { added: 'added', modified: 'modified', removed: 'removed' };
+                  const status = map[file.status] || 'changed';
+                  description += `- ${status} \`${file.filename}\`\n`;
+                }
+                description += '\n';
+              }
+            }
+
+            const additions = files.reduce((sum, f) => sum + f.additions, 0);
+            const deletions = files.reduce((sum, f) => sum + f.deletions, 0);
+            description += `## Summary\n`;
+            description += `Files changed: ${files.length}\n`;
+            description += `Additions: +${additions}\n`;
+            description += `Deletions: -${deletions}\n`;
+            description += `Commits: ${commits.length}\n`;
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              body: description,
+            });

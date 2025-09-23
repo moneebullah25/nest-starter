@@ -1,0 +1,62 @@
+name: Workflow Status
+
+on:
+  workflow_run:
+    workflows:
+      [
+        'Lint & Code Quality',
+        'Build & Test',
+        'Docker Build & Test',
+        'Security Scan',
+      ]
+    types: [completed]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  workflow-status:
+    name: Update Workflow Status
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get workflow status
+        id: status
+        run: |
+          if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
+            echo "status=SUCCESS" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.workflow_run.conclusion }}" = "failure" ]; then
+            echo "status=FAILURE" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.workflow_run.conclusion }}" = "cancelled" ]; then
+            echo "status=CANCELLED" >> $GITHUB_OUTPUT
+            echo "emoji=⏹️" >> $GITHUB_OUTPUT
+          else
+            echo "status=UNKNOWN" >> $GITHUB_OUTPUT
+            echo "emoji=⚠️" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR with workflow status
+        if: ${{ github.event.workflow_run.pull_requests && github.event.workflow_run.pull_requests[0] }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.workflow_run.pull_requests[0]
+            const workflowName = context.payload.workflow_run.name
+            const status = '${{ steps.status.outputs.status }}'
+            const emoji = '${{ steps.status.outputs.emoji }}'
+            const url = context.payload.workflow_run.html_url
+            const body = `${emoji} ${workflowName} - ${status}\n\n[View run](${url})`
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body,
+            })
