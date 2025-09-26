@@ -220,11 +220,17 @@ Pre-commit and commit-msg hooks are already setup. Pre-commit hook runs tests an
 
 This repository provides a production grade multi stage image and separate compose files for development and production.
 
-Development
+### Development
 
 The development stack uses bind mounts and hot reload. It installs dependencies inside the container at startup so the Nest CLI and TypeScript tooling are available without bloating the image. The API listens on INTERNAL_PORT and is published on EXTERNAL_PORT.
 
 ![alt text](doc/docker-dev.png)
+
+Build images
+
+```bash
+pnpm run docker:dev:build
+```
 
 Run
 
@@ -238,7 +244,7 @@ Stop and remove volumes
 pnpm run docker:dev:down
 ```
 
-Production
+### Production
 
 The production image is built with a separate build stage and a pruned runtime stage that runs as a non root user. Prisma migrations are executed by a dedicated migrate service before the API starts. Environment files are not copied into images; compose passes environment variables at runtime.
 
@@ -262,7 +268,7 @@ Stop and remove volumes
 pnpm run docker:prod:down
 ```
 
-Ports
+### Ports
 
 Set EXTERNAL_PORT and INTERNAL_PORT in your environment files if you need something other than the default of 3000. Health checks in compose target the internal port.
 

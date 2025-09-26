@@ -1,0 +1,12 @@
+services:
+  adminer:
+    image: adminer:latest
+    container_name: adminer-app
+    ports:
+      - ${ADMINER_PORT}:8080
+    networks:
+      - nest-network
+
+networks:
+  nest-network:
+    driver: bridge

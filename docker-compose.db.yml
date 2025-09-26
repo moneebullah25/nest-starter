@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    ports:
+      - '${DATABASE_PORT}:5432'
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - nest-network
+
+volumes:
+  postgres:
+    name: nest-db
+
+networks:
+  nest-network:
+    driver: bridge

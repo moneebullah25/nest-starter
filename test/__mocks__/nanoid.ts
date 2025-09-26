@@ -8,4 +8,3 @@ export function nanoid(size: number = 21): string {
 }
 
 export default nanoid;
-
