@@ -8,6 +8,10 @@ It is mostly built to be used as a starting point in hackathons and implements c
 
 Clone this repository by running `git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>` or [directly create your own GitHub repository using this template](https://github.com/moneebullah25/nest-starter/generate).
 
+![Swagger UI served at /api by the running API](docs/images/demo.png)
+
+_Real capture of the Swagger UI at `/api` from the app built with `pnpm build` and run with `node dist/src/main.js` against a local PostgreSQL._
+
 ## Features
 
 1. **PostgreSQL with Prisma** – Easy-to-use and scalable relational database integration with auto-generated types.
@@ -27,7 +31,7 @@ Clone this repository by running `git clone https://github.com/moneebullah25/nes
 
 ### Prerequisites
 
-Node.js 16 or newer
+Node.js 22 (used by CI and the Docker image)
 pnpm
 PostgreSQL (local or Docker)
 Docker and Docker Compose
@@ -39,7 +43,7 @@ Docker and Docker Compose
 ```bash
 git clone https://github.com/moneebullah25/nest-starter.git <YOUR_PROJECT_NAME>
 cd <YOUR_PROJECT_NAME>
-pnpm ci
+pnpm install --frozen-lockfile
 ```
 
 ---
@@ -280,15 +284,14 @@ See scripts section in package.json file for all scripts available
 
 ### Build and Start
 
-| Script        | Description                                                    |
-| ------------- | -------------------------------------------------------------- |
-| `start`       | Runs Nest app using .env.dev                                   |
-| `start:dev`   | Runs Nest app using .env.dev with file watching                |
-| `start:test`  | Starts app using .env.test                                     |
-| `start:prod`  | Compiles app and runs using .env.prod                          |
-| `build`       | Cleans and compiles the TypeScript project into `dist/` folder |
-| `clean`       | Removes the compiled `dist/` folder                            |
-| `postinstall` | Not used in Docker builds                                      |
+| Script       | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| `start`      | Runs Nest app using .env.dev                                   |
+| `start:dev`  | Runs Nest app using .env.dev with file watching                |
+| `start:test` | Starts app using .env.test                                     |
+| `start:prod` | Compiles app and runs using .env.prod                          |
+| `build`      | Cleans and compiles the TypeScript project into `dist/` folder |
+| `clean`      | Removes the compiled `dist/` folder                            |
 
 ### Testing and Linting
 
@@ -327,8 +330,7 @@ See scripts section in package.json file for all scripts available
 ├── src/                       # Main source code
 ├── test/                      # Unit and E2E tests
 ├── dist/                      # Compiled output after build
-├── Dockerfile                 # Production multi stage image
-├── Dockerfile.alpine          # Dev and production stages on Alpine
+├── Dockerfile                 # Multi stage image (dev and production targets)
 ├── docker-compose.dev.yml     # Development stack
 ├── docker-compose.prod.yml    # Production stack
 ├── docker-compose.db.yml      # DB only Compose file
