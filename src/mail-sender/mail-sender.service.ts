@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { createTransport } from 'nodemailer';
-import * as Mail from 'nodemailer/lib/mailer';
+import { createTransport, Transporter } from 'nodemailer';
 
 import config from '../config';
 import {
@@ -12,7 +11,7 @@ import {
 
 @Injectable()
 export class MailSenderService {
-  private transporter: Mail;
+  private transporter: Transporter;
 
   private socials: string;
 
